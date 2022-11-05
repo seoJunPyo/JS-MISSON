@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="date-picker-con">
+      <h1 class="date-picker-title">Date Picker</h1>
+      <input
+        type="text"
+        name=""
+        id=""
+        placeholder="Select Date"
+        class="date-picker"
+        readonly
+      />
+
+      <div class="calendar-container">
+        <div class="layer"></div>
+        <div class="calendar">
+          <div class="calendar-nav">
+            <div class="icon-wrap prev">
+              <i class="bx bxs-left-arrow"></i>
+            </div>
+            <div class="calendar-head-title">
+              <div class="month">April</div>
+              <div class="year"></div>
+            </div>
+            <div class="icon-wrap next">
+              <i class="bx bxs-right-arrow"></i>
+            </div>
+          </div>
+          <div class="calendar-main">
+            <div class="day-container">
+              <div class="day">SUN</div>
+              <div class="day">MON</div>
+              <div class="day">TUE</div>
+              <div class="day">WED</div>
+              <div class="day">THU</div>
+              <div class="day">TRI</div>
+              <div class="day">SAT</div>
+            </div>
+            <div class="calendar-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.js" type="module"></script>
+  </body>
+</html>

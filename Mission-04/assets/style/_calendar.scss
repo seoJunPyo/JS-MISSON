@@ -1,0 +1,122 @@
+$columns: 7;
+$width: 0;
+
+.calendar-container {
+  width: 400px;
+  margin-top: 5px;
+
+  text-align: center;
+  display: none;
+
+  .calendar {
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px rgba(87, 87, 87, 0.4);
+    z-index: 100;
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #338ccc;
+      border-radius: 10px 10px 0 0;
+      color: #fff;
+
+      .icon-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+        cursor: pointer;
+        z-index: 1;
+      }
+
+      .calendar-head-title {
+        .month {
+          font-size: 24px;
+          font-weight: 100;
+        }
+
+        .year {
+          font-size: 12px;
+          letter-spacing: 1px;
+          font-weight: 100;
+        }
+      }
+    }
+
+    .calendar-main {
+      padding: 12px 20px;
+      background-color: #fff;
+      border-radius: 0 0 10px 10px;
+
+      .day-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        margin-bottom: 12px;
+
+        .day {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #c9c9c9;
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+
+      .calendar-grid {
+        height: 300px;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: auto;
+
+        .date-box {
+          justify-self: center;
+          align-self: center;
+          margin: 4px;
+          color: #28231d;
+          font-weight: 600;
+          cursor: pointer;
+
+          .date-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100%;
+            font-size: 16px;
+            width: 40px;
+            height: 40px;
+
+            &.today {
+              border: 2px solid #4b97cd;
+            }
+
+            &.hover {
+              background-color: #4b97cd;
+              color: #fff !important;
+              transition: all 0.3s;
+              font-weight: 700;
+              border: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.show {
+  display: block;
+}
+
+.layer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
