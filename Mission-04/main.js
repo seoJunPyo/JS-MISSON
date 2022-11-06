@@ -2,7 +2,6 @@ import { calendar } from "./component/calendar.js";
 // import { datePickerEvents } from "./module/datepicker.js";
 
 calendar();
-// datePickerEvents();
 
 const datePickerInput = document.querySelector(".date-picker");
 const calenderCon = document.querySelector(".calendar-container");

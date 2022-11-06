@@ -1,5 +1,3 @@
-import { calendar } from "../component/calendar.js";
-
 export const dateColor = (dateBoxs, prevDates, nextDates) => {
   let dateBoxlength = [...dateBoxs].length;
 
@@ -37,38 +35,6 @@ export const dateBoxhoverStyle = (dateTexts, prevDates, nextDates) => {
   }
 };
 
-export const prev_nextDateClick = (dateBoxs, prevDates, nextDates, date) => {
-  let dateBoxlength = [...dateBoxs].length - 1;
-
-  for (let i = 0; i < prevDates.length; i++) {
-    [...dateBoxs][i].onclick = () => {
-      date.setDate(1);
-      calendar(-1);
-    };
-  }
-
-  for (let i = dateBoxlength; i > dateBoxlength - nextDates.length; i--) {
-    [...dateBoxs][i].onclick = () => {
-      date.setDate(1);
-      calendar(1);
-    };
-  }
-};
-
-export const todaySelecter = (thisYearValue, thisMonthValue, dateTexts) => {
-  const today = new Date();
-  const todayYear = today.getFullYear();
-  const todayMonth = today.getMonth();
-  const todyDate = today.getDate();
-
-  if (todayYear == thisYearValue && todayMonth == thisMonthValue) {
-    [...dateTexts].forEach((date) => {
-      if (date.innerHTML == todyDate) {
-        date.classList.add("today");
-      }
-    });
-  }
-};
 /**
  width 지정 필요한 곳
  1. 달력 전체 width 설정

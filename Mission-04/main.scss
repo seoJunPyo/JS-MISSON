@@ -4,26 +4,3 @@
 body {
   background-color: #e3e3e3;
 }
-
-.date-picker-con {
-  margin: 0 auto;
-  padding: 30px;
-
-  .date-picker-title {
-    color: #0f4c81;
-    margin-bottom: 20px;
-  }
-
-  .date-picker {
-    padding: 10px 20px 10px 8px;
-    background-color: #fff;
-    border: 1px solid #c9c9c9;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 700;
-
-    &:focus {
-      outline: 2px solid #648cff;
-    }
-  }
-}
