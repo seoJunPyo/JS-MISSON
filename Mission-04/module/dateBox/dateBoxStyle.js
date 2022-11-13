@@ -1,3 +1,8 @@
+const dateTextStyle = (dateBoxs, i) => {
+  [...dateBoxs][i].style.color = "#c9c9c9";
+  [...dateBoxs][i].style.fontWeight = "500";
+};
+
 export const dateColor = (dateBoxs, prevDates, nextDates) => {
   let dateBoxlength = [...dateBoxs].length;
 
@@ -8,8 +13,7 @@ export const dateColor = (dateBoxs, prevDates, nextDates) => {
 
   // 전달 다음 달 날짜 흐리게
   for (let i = 0; i < prevDates.length; i++) {
-    [...dateBoxs][i].style.color = "#c9c9c9";
-    [...dateBoxs][i].style.fontWeight = "500";
+    dateTextStyle(dateBoxs, i);
   }
 
   for (
@@ -17,8 +21,7 @@ export const dateColor = (dateBoxs, prevDates, nextDates) => {
     i > dateBoxlength - 1 - nextDates.length;
     i--
   ) {
-    [...dateBoxs][i].style.color = "#c9c9c9";
-    [...dateBoxs][i].style.fontWeight = "500";
+    dateTextStyle(dateBoxs, i);
   }
 };
 
