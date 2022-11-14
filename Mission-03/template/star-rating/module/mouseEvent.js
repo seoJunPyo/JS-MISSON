@@ -1,4 +1,4 @@
-import { prevAll } from "./common.js";
+import { prevSelectedAll } from "./common.js";
 import { changeRatingEvent } from "./customEventHandler.js";
 
 export const starConMouseLeave = (e) => {
@@ -8,13 +8,14 @@ export const starConMouseLeave = (e) => {
     child[i].classList.remove("hovered");
   }
 };
+
 export const starMouseEnter = (e) => {
   e.target.classList.add("hovered");
 
-  const prevStar = prevAll(e.target);
+  const prevStar = prevSelectedAll(e.target);
 
-  prevStar.forEach((a) => {
-    a.classList.add("hovered");
+  prevStar.forEach((star) => {
+    star.classList.add("hovered");
   });
 };
 
@@ -22,11 +23,11 @@ export const starMouseClick = (e) => {
   e.target.classList.remove("hovered");
   e.target.classList.add("selected");
 
-  const prevStar = prevAll(e.target);
+  const prevStar = prevSelectedAll(e.target);
 
-  prevStar.forEach((a) => {
-    a.classList.remove("hovered");
-    a.classList.add("selected");
+  prevStar.forEach((star) => {
+    star.classList.remove("hovered");
+    star.classList.add("selected");
   });
 
   changeRatingEvent(e);

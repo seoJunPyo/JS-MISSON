@@ -1,12 +1,14 @@
 import { calendar } from "./component/calendar.js";
+import { get } from "./module/common/common.js";
 // import { datePickerEvents } from "./module/datepicker.js";
 
 calendar();
 
-const datePickerInput = document.querySelector(".date-picker");
-const calenderCon = document.querySelector(".calendar-container");
-const layer = document.querySelector(".layer");
+const datePickerInput = get(".date-picker");
+const calenderCon = get(".calendar-container");
+const layer = get(".layer");
 
+// calendar 열었다 닫기
 datePickerInput.onclick = () => {
   calenderCon.classList.add("show");
 };

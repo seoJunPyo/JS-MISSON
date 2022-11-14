@@ -25,3 +25,20 @@ String.prototype.fillZero = function (width) {
     ? this
     : new Array(width - this.length + 1).join("0") + this;
 };
+
+export const get = (target) => {
+  return document.querySelector(target);
+};
+
+export const getAll = (target) => {
+  return document.querySelectorAll(target);
+};
+
+export const newDate = (date) => {
+  return [
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.toLocaleString("en-US", { month: "long" }),
+  ];
+};

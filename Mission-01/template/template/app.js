@@ -1,9 +1,15 @@
 // do something!
-const toggleBtn = document.getElementsByClassName("toggle")[0];
-const nav = document.getElementsByTagName("nav")[0];
-const main = document.getElementsByTagName("main")[0];
-const active = document.getElementsByClassName("active");
-const body = document.getElementsByTagName("body")[0];
+const get = (target) => {
+  return document.querySelector(target);
+};
+
+const [toggleBtn, nav, main, active, body] = [
+  get(".toggle"),
+  get("nav"),
+  get("main"),
+  get(".active"),
+  get("body"),
+];
 
 const setLocalData = (key, val) => {
   localStorage.setItem(key, val);

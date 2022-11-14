@@ -1,4 +1,4 @@
-export const prevAll = (element) => {
+export const prevSelectedAll = (element) => {
   let result = [];
 
   while ((element = element.previousSibling)) {

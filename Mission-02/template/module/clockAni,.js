@@ -1,3 +1,4 @@
+// 시계 초침, 분침, 시침 움직임
 export const clockAni = (clockCopy) => {
   let deg = {
     second: 0,

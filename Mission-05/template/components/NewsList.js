@@ -11,6 +11,8 @@ let pageSize = 5;
 const $rootDOM = get("#root");
 
 // 뉴스 컴포넌트 요소 생성
+
+// 썸네일
 const newsThumbnailDOM = (url, urlToImage) => {
   const thumbnailDOM = makeDOMwithProperties("div", {
     className: "thumbnail",
@@ -33,6 +35,7 @@ const newsThumbnailDOM = (url, urlToImage) => {
   return thumbnailDOM;
 };
 
+// 컨텐츠
 const newsContenstDOM = (url, title, desc) => {
   const contentsDOM = makeDOMwithProperties("div", {
     className: "contents",
@@ -58,6 +61,7 @@ const newsContenstDOM = (url, title, desc) => {
   return contentsDOM;
 };
 
+// section 태그
 const newsListSectionDOM = (ArrayDOM) => {
   const newsListSectionDOM = makeDOMwithProperties("section", {
     className: "news-item",
@@ -68,6 +72,7 @@ const newsListSectionDOM = (ArrayDOM) => {
   return newsListSectionDOM;
 };
 
+// article 태그
 const newsListArticleDOM = (item) => {
   const newsListArticleDOM = makeDOMwithProperties("article", {
     className: "news-list",
@@ -78,6 +83,7 @@ const newsListArticleDOM = (item) => {
   return newsListArticleDOM;
 };
 
+// container 생성
 const newsListConDOM = (ArrayDOM) => {
   const newsListConDOM = makeDOMwithProperties("div", {
     className: "news-list-container",
