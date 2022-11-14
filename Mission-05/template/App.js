@@ -1,9 +1,16 @@
 import { navDOM } from "./components/Nav.js";
 import { appendChildList, get, getAll } from "./module/common.js";
-import { newsListConDOM } from "./components/NewsList.js";
+import { getNewsListDOM } from "./components/NewsList.js";
 
 const $rootDOM = get("#root");
+$rootDOM.appendChild(navDOM());
 
-appendChildList($rootDOM, [navDOM(), newsListConDOM()]);
+const all = get(".category-item");
+all.classList.add("active");
 
-// newsListDOM(); // do something!
+const categoryID = get(".active").id;
+let category = { id: categoryID };
+
+const nav = getAll(".category-item");
+
+getNewsListDOM(category.id);

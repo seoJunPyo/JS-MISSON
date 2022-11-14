@@ -1,44 +1,39 @@
-import { appendChildList, makeDOMwithProperties } from "../module/common.js";
+import {
+  appendChildList,
+  get,
+  getAll,
+  makeDOMwithProperties,
+} from "../module/common.js";
 
 let page = 1;
 let pageSize = 5;
-let categoryId = "all";
 
-const API_URL = `https://newsapi.org/v2/top-headlines?country=kr&category=${
-  categoryId === "all" ? "" : categoryId
-}&page=${page}&pageSize=${pageSize}&apiKey=9ee05aaf56634f3b8f2dbfe22b25f2f6`;
+const $rootDOM = get("#root");
 
-export const getNewsList = async () => {
-  try {
-    const response = await axios.get(API_URL);
-    const newsData = response.data.articles;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const newsThumbnailDOM = () => {
+// 뉴스 컴포넌트 요소 생성
+const newsThumbnailDOM = (url, urlToImage) => {
   const thumbnailDOM = makeDOMwithProperties("div", {
     className: "thumbnail",
   });
 
   const newsLink = makeDOMwithProperties("a", {
-    href: "/",
+    href: url,
     target: "_blank",
     rel: "noopener noreferrer",
   });
 
   const newsImg = makeDOMwithProperties("img", {
-    src: "/",
+    src: urlToImage,
     alt: "thumbnail",
   });
 
-  appendChildList(thumbnailDOM, [newsLink, newsImg]);
+  newsLink.appendChild(newsImg);
+  thumbnailDOM.appendChild(newsLink);
 
   return thumbnailDOM;
 };
 
-const newsContenstDOM = () => {
+const newsContenstDOM = (url, title, desc) => {
   const contentsDOM = makeDOMwithProperties("div", {
     className: "contents",
   });
@@ -46,14 +41,14 @@ const newsContenstDOM = () => {
   const newstitle = makeDOMwithProperties("h2", {});
 
   const newsLink = makeDOMwithProperties("a", {
-    href: "/",
+    href: url,
     target: "_blank",
     rel: "noopener noreferrer",
-    innerHTML: "타이틀",
+    innerHTML: title,
   });
 
   const newsDesc = makeDOMwithProperties("p", {
-    innerHTML: "`${desc}`",
+    innerHTML: desc,
   });
 
   newstitle.appendChild(newsLink);
@@ -63,26 +58,103 @@ const newsContenstDOM = () => {
   return contentsDOM;
 };
 
-const newsListArticleDOM = () => {
+const newsListSectionDOM = (ArrayDOM) => {
+  const newsListSectionDOM = makeDOMwithProperties("section", {
+    className: "news-item",
+  });
+
+  appendChildList(newsListSectionDOM, ArrayDOM);
+
+  return newsListSectionDOM;
+};
+
+const newsListArticleDOM = (item) => {
   const newsListArticleDOM = makeDOMwithProperties("article", {
     className: "news-list",
   });
 
-  const newsItemDOM = makeDOMwithProperties("section", {
-    className: "news-item",
-  });
-
-  appendChildList(newsItemDOM, [newsThumbnailDOM(), newsContenstDOM()]);
-  newsListArticleDOM.appendChild(newsItemDOM);
+  appendChildList(newsListArticleDOM, item);
 
   return newsListArticleDOM;
 };
 
-export const newsListConDOM = () => {
+const newsListConDOM = (ArrayDOM) => {
   const newsListConDOM = makeDOMwithProperties("div", {
     className: "news-list-container",
   });
-  newsListConDOM.appendChild(newsListArticleDOM());
-
+  appendChildList(newsListConDOM, ArrayDOM);
   return newsListConDOM;
 };
+//
+
+// 옵저버 생성
+const scrollObserver = () => {
+  const scrollObserverDOM = makeDOMwithProperties("div", {
+    className: "scroll-observer",
+    style: "display : none",
+  });
+  const scrollObserverImg = makeDOMwithProperties("img", {
+    src: "img/ball-triangle.svg",
+    alt: "Loading...",
+  });
+
+  scrollObserverDOM.appendChild(scrollObserverImg);
+
+  return scrollObserverDOM;
+};
+//
+
+// 옵저버 이벤트
+const observerEvents = (target) => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  if (scrollTop + clientHeight > scrollHeight - 5) {
+    page++;
+    target[target.length - 1].style.display = "block";
+    getNewsListDOM();
+  }
+};
+
+const observerNone = (target) => {
+  target.forEach((observer) => {
+    observer.style.display = "none";
+  });
+};
+//
+
+// 뉴스리스트 axios 통신으로 수신하고 브라우저에 표시
+export const getNewsListDOM = async (categoryId = "") => {
+  const API_URL = `https://newsapi.org/v2/top-headlines?country=kr&category=${
+    categoryId === "all" ? "" : categoryId
+  }&page=${page}&pageSize=${pageSize}&apiKey=4f0a848474864953851823efd5fa388d`;
+
+  try {
+    const response = await axios.get(API_URL);
+    const newsData = response.data.articles;
+    let newsList = [];
+
+    // 뉴스 리스트 생성
+    newsData.forEach((news) => {
+      const thumbnail = newsThumbnailDOM(news.url, news.urlToImage);
+      const contents = newsContenstDOM(news.url, news.title, news.description);
+      const setion = newsListSectionDOM([thumbnail, contents]);
+      newsList.push(setion);
+    });
+
+    const article = newsListArticleDOM(newsList);
+    const newsContainer = newsListConDOM([article, scrollObserver()]);
+    $rootDOM.appendChild(newsContainer);
+
+    // 무한 스크롤 옵저버 생성 및 기능
+    const observer = getAll(".scroll-observer");
+    window.onscroll = () => {
+      observerEvents([...observer]);
+    };
+  } catch (error) {
+    console.error(error);
+  } finally {
+    // 뉴스 로드 후 모든 옵저버 숨기기
+    const observer = getAll(".scroll-observer");
+    observerNone([...observer]);
+  }
+};
+//

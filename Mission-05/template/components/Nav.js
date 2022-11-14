@@ -5,13 +5,17 @@ import {
   removerClassAll,
 } from "../module/common.js";
 import { navItems } from "../module/navItems.js";
+let categoryID;
+let category = { id: categoryID };
 
 const categoryListClick = (e) => {
   const $categoryListItems = getAll(".category-item");
   const categoryListItemsDOMS = [...$categoryListItems];
+  categoryID = get(".active").id;
 
   removerClassAll(categoryListItemsDOMS, "active");
   e.target.classList.add("active");
+  console.log(category);
 };
 
 const categoryListDOM = () => {
@@ -27,7 +31,6 @@ const categoryListDOM = () => {
     });
     ul.appendChild(categoryListItems);
   });
-
   return ul;
 };
 
