@@ -14,9 +14,12 @@ export const appendChildList = (target, childList) => {
   });
 };
 
-export const removeChildAll = (target) => {
+export const removeChildAllwithoutNav = (target) => {
   while (target.hasChildNodes()) {
-    target.removeChild(target.firstChild);
+    if (target.lastChild?.className === "category-list") {
+      break;
+    }
+    target.removeChild(target.lastChild);
   }
 };
 
