@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: flex-end;
+  height: 5000px;
+  width: 100vw;
+  background-color: green;
+}
+
+.observer {
+  width: 100vw;
+  height: 200px;
+  background-color: aquamarine;
+}

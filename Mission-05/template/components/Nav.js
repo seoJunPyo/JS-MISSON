@@ -1,23 +1,9 @@
 import {
   makeDOMwithProperties,
-  get,
   getAll,
   removerClassAll,
-  removeChildAllwithoutNav,
 } from "../module/common.js";
 import { navItems } from "../module/navItems.js";
-import { getNewsListDOM } from "./NewsList.js";
-
-// 프록시 선언
-const category = { id: "all" };
-const setCategroy = {
-  set(category, prop, id) {
-    category[prop] = id;
-    return id;
-  },
-};
-const categoryProxy = new Proxy(category, setCategroy);
-//
 
 //카테고리 메뉴 클릭 이벤트
 const categoryListClick = (e) => {
@@ -27,13 +13,6 @@ const categoryListClick = (e) => {
   removerClassAll(categoryListItemsDOMS, "active");
   e.target.classList.add("active");
 };
-
-const categoryChange = (e) => {
-  removeChildAllwithoutNav($rootDOM);
-  categoryProxy.id = e.target.id;
-  getNewsListDOM(category.id);
-};
-//
 
 // Nav 생성
 const categoryListDOM = () => {
@@ -45,7 +24,6 @@ const categoryListDOM = () => {
       innerHTML: item.title,
       onclick: (e) => {
         categoryListClick(e);
-        categoryChange(e);
       },
     });
     ul.appendChild(categoryListItems);

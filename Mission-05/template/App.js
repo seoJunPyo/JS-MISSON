@@ -1,19 +1,44 @@
 import { navDOM } from "./components/Nav.js";
-import { appendChildList, get, getAll } from "./module/common.js";
+import { get, getAll, removeChildAllwithoutNav } from "./module/common.js";
 import { getNewsListDOM } from "./components/NewsList.js";
 
+//DOM 생성
 export const $rootDOM = get("#root");
 $rootDOM.appendChild(navDOM());
 
-const all = getAll(".category-item")[0];
-all.classList.add("active");
-
-const nav = getAll(".category-item");
+const navAllTab = getAll(".category-item")[0];
+navAllTab.classList.add("active");
 
 getNewsListDOM();
+//
 
-/**
- 1. nav버튼 클릭시 , categoryID 값이 업데이트
- 2. proxy에서 값변경시 , categoryID를 매개변수로 newsList 재랜더링
- 3. 재렌더링전에 기존 뉴스 전부 삭제
- */
+// 프록시 선언
+const category = { id: "all" };
+const setCategroy = {
+  set(category, prop, id) {
+    category[prop] = id;
+    return id;
+  },
+};
+const categoryProxy = new Proxy(category, setCategroy);
+//
+
+// nav 선택요소 변경시 이벤트
+const navList = get(".category-list");
+const navListOnChange = () => {
+  const active = get(".active");
+
+  removeChildAllwithoutNav($rootDOM);
+  categoryProxy.id = active.id;
+  getNewsListDOM(category.id);
+};
+
+const navObserver = new MutationObserver(navListOnChange);
+
+const navObserverConfig = {
+  attributes: true,
+  subtree: true,
+};
+
+navObserver.observe(navList, navObserverConfig);
+//

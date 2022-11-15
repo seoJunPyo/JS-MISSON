@@ -1,14 +1,13 @@
 import {
   appendChildList,
-  get,
   getAll,
   makeDOMwithProperties,
 } from "../module/common.js";
 
+import { $rootDOM } from "../App.js";
+
 let page = 1;
 let pageSize = 5;
-
-const $rootDOM = get("#root");
 
 // 뉴스 컴포넌트 요소 생성
 
@@ -97,7 +96,6 @@ const newsListConDOM = (ArrayDOM) => {
 const scrollObserver = () => {
   const scrollObserverDOM = makeDOMwithProperties("div", {
     className: "scroll-observer",
-    style: "display : none",
   });
   const scrollObserverImg = makeDOMwithProperties("img", {
     src: "img/ball-triangle.svg",
@@ -111,17 +109,22 @@ const scrollObserver = () => {
 //
 
 // 옵저버 이벤트
-const observerEvents = (target) => {
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-  if (scrollTop + clientHeight > scrollHeight - 5) {
-    page++;
-    target[target.length - 1].style.display = "block";
-    getNewsListDOM();
-  }
-};
+const observerEvents = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entries) => {
+    if (entries.isIntersecting) {
+      page++;
+      observer.unobserve(entries.target);
+      getNewsListDOM();
+    }
+  });
+});
 
 const observerNone = (target) => {
-  target.forEach((observer) => {
+  let max = target.length - 1;
+  target.forEach((observer, i) => {
+    if (max == i) {
+      return;
+    }
     observer.style.display = "none";
   });
 };
@@ -131,7 +134,7 @@ const observerNone = (target) => {
 export const getNewsListDOM = async (categoryId = "") => {
   const API_URL = `https://newsapi.org/v2/top-headlines?country=kr&category=${
     categoryId === "all" ? "" : categoryId
-  }&page=${page}&pageSize=${pageSize}&apiKey=4f0a848474864953851823efd5fa388d`;
+  }&page=${page}&pageSize=${pageSize}&apiKey=9ee05aaf56634f3b8f2dbfe22b25f2f6`;
 
   try {
     const response = await axios.get(API_URL);
@@ -152,13 +155,16 @@ export const getNewsListDOM = async (categoryId = "") => {
 
     // 무한 스크롤 옵저버 생성 및 기능
     const observer = getAll(".scroll-observer");
-    window.onscroll = () => {
-      observerEvents([...observer]);
-    };
+
+    observer.forEach((entries) => {
+      observerEvents.observe(entries);
+    });
+    //
   } catch (error) {
     console.error(error);
   } finally {
-    // 뉴스 로드 후 모든 옵저버 숨기기
+    // 옵저버 이벤트 무한 루프 방지 -
+    // 마지막 옵저버를 제외한 나머지 옵저버 display : none
     const observer = getAll(".scroll-observer");
     observerNone([...observer]);
   }
